@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { User, LogOut, Bell, Menu, X, Home, CreditCard, FileText } from 'lucide-react';
+import { User, LogOut, Bell, Menu, X, Home, CreditCard, FileText, RefreshCw } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { Button } from '@/components/ui/button';
 import {
@@ -30,6 +30,11 @@ const navItems: NavItem[] = [
     title: 'View Plan',
     href: '/member/plan',
     icon: FileText,
+  },
+  {
+    title: 'Recharge',
+    href: '/member/recharge',
+    icon: RefreshCw,
   },
   {
     title: 'Payments',

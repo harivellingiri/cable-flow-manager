@@ -24,6 +24,7 @@ import Settings from "./pages/admin/Settings";
 import MemberDashboard from "./pages/member/Dashboard";
 import ViewPlan from "./pages/member/ViewPlan";
 import Payments from "./pages/member/Payments";
+import MemberRecharge from "./pages/member/Recharge";
 
 // Layouts
 import AdminLayout from "./components/layouts/AdminLayout";
@@ -83,6 +84,7 @@ const AppRoutes = () => {
       <Route path="/member" element={<MemberRoute><MemberDashboard /></MemberRoute>} />
       <Route path="/member/plan" element={<MemberRoute><ViewPlan /></MemberRoute>} />
       <Route path="/member/payments" element={<MemberRoute><Payments /></MemberRoute>} />
+      <Route path="/member/recharge" element={<MemberRoute><MemberRecharge /></MemberRoute>} />
       
       {/* Catch-all route */}
       <Route path="*" element={<NotFound />} />
