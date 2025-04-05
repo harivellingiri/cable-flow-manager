@@ -1,7 +1,7 @@
 
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { User, LogOut, Bell, Menu, X } from 'lucide-react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { User, LogOut, Bell, Menu, X, Home, CreditCard, FileText } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { Button } from '@/components/ui/button';
 import {
@@ -14,6 +14,30 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { cn } from '@/lib/utils';
 
+interface NavItem {
+  title: string;
+  href: string;
+  icon: React.ElementType;
+}
+
+const navItems: NavItem[] = [
+  {
+    title: 'Dashboard',
+    href: '/member',
+    icon: Home,
+  },
+  {
+    title: 'View Plan',
+    href: '/member/plan',
+    icon: FileText,
+  },
+  {
+    title: 'Payments',
+    href: '/member/payments',
+    icon: CreditCard,
+  },
+];
+
 interface MemberLayoutProps {
   children: React.ReactNode;
 }
@@ -21,6 +45,7 @@ interface MemberLayoutProps {
 const MemberLayout: React.FC<MemberLayoutProps> = ({ children }) => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
 
   const handleLogout = () => {
@@ -50,32 +75,47 @@ const MemberLayout: React.FC<MemberLayoutProps> = ({ children }) => {
           </div>
 
           {/* Desktop menu */}
-          <div className="hidden md:flex items-center space-x-4">
-            <Button variant="ghost" size="icon" className="text-primary-foreground hover:bg-primary/90">
-              <Bell size={20} />
-            </Button>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-                  <div className="h-8 w-8 rounded-full bg-background/20 flex items-center justify-center text-primary-foreground font-medium">
-                    {user?.name?.charAt(0) || 'U'}
-                  </div>
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                  <User className="mr-2 h-4 w-4" />
-                  <span>Profile</span>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={handleLogout}>
-                  <LogOut className="mr-2 h-4 w-4" />
-                  <span>Logout</span>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+          <div className="hidden md:flex items-center space-x-6">
+            {navItems.map((item) => (
+              <Link
+                key={item.href}
+                to={item.href}
+                className={cn(
+                  "text-primary-foreground/90 hover:text-primary-foreground transition-colors",
+                  location.pathname === item.href && "font-medium text-primary-foreground"
+                )}
+              >
+                {item.title}
+              </Link>
+            ))}
+            
+            <div className="flex items-center space-x-4 ml-4">
+              <Button variant="ghost" size="icon" className="text-primary-foreground hover:bg-primary/90">
+                <Bell size={20} />
+              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                    <div className="h-8 w-8 rounded-full bg-background/20 flex items-center justify-center text-primary-foreground font-medium">
+                      {user?.name?.charAt(0) || 'U'}
+                    </div>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem>
+                    <User className="mr-2 h-4 w-4" />
+                    <span>Profile</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleLogout}>
+                    <LogOut className="mr-2 h-4 w-4" />
+                    <span>Logout</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
           </div>
         </div>
       </header>
@@ -86,31 +126,22 @@ const MemberLayout: React.FC<MemberLayoutProps> = ({ children }) => {
         mobileMenuOpen ? "translate-y-0" : "-translate-y-full"
       )}>
         <div className="p-4 space-y-4">
-          <Link 
-            to="/member" 
-            className="flex items-center px-4 py-2 rounded-md hover:bg-muted"
-            onClick={() => setMobileMenuOpen(false)}
-          >
-            Dashboard
-          </Link>
-          <Link 
-            to="/member/profile" 
-            className="flex items-center px-4 py-2 rounded-md hover:bg-muted"
-            onClick={() => setMobileMenuOpen(false)}
-          >
-            Profile
-          </Link>
-          <Link 
-            to="/member/notifications" 
-            className="flex items-center px-4 py-2 rounded-md hover:bg-muted"
-            onClick={() => setMobileMenuOpen(false)}
-          >
-            Notifications
-          </Link>
+          {navItems.map((item) => (
+            <Link 
+              key={item.href}
+              to={item.href} 
+              className="flex items-center px-4 py-2 rounded-md hover:bg-muted"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <item.icon className="h-5 w-5 mr-3" />
+              {item.title}
+            </Link>
+          ))}
           <button 
             onClick={handleLogout}
             className="flex items-center w-full px-4 py-2 rounded-md hover:bg-muted text-left"
           >
+            <LogOut className="h-5 w-5 mr-3" />
             Logout
           </button>
         </div>

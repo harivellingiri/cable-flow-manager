@@ -52,11 +52,6 @@ const navItems: NavItem[] = [
     icon: BarChart4,
   },
   {
-    title: 'Notifications',
-    href: '/admin/notifications',
-    icon: Bell,
-  },
-  {
     title: 'Settings',
     href: '/admin/settings',
     icon: Settings,
@@ -79,7 +74,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
   };
 
   return (
-    <div className="flex h-screen bg-muted/20">
+    <div className="flex h-screen overflow-hidden bg-muted/20">
       {/* Sidebar */}
       <aside 
         className={cn(
@@ -164,7 +159,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
       {/* Main Content */}
       <div className={cn(
         "flex-1 flex flex-col overflow-hidden",
-        sidebarOpen ? "md:ml-64" : "md:ml-20"
+        sidebarOpen ? "md:ml-0" : "md:ml-0"
       )}>
         {/* Header */}
         <header className="bg-background border-b border-border sticky top-0 z-10">
