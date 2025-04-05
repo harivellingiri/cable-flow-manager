@@ -9,14 +9,21 @@ import { AuthProvider, useAuth } from "./context/AuthContext";
 // Pages
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
+import Index from "./pages/Index";
 
 // Admin Pages
 import AdminDashboard from "./pages/admin/Dashboard";
 import Members from "./pages/admin/Members";
+import AddMember from "./pages/admin/AddMember";
 import MemberProfile from "./pages/admin/MemberProfile";
+import Recharge from "./pages/admin/Recharge";
+import Reports from "./pages/admin/Reports";
+import Settings from "./pages/admin/Settings";
 
 // Member Pages
 import MemberDashboard from "./pages/member/Dashboard";
+import ViewPlan from "./pages/member/ViewPlan";
+import Payments from "./pages/member/Payments";
 
 // Layouts
 import AdminLayout from "./components/layouts/AdminLayout";
@@ -54,22 +61,11 @@ const MemberRoute = ({ children }: { children: React.ReactNode }) => {
   return <MemberLayout>{children}</MemberLayout>;
 };
 
-// Authentication check for root route
-const RootRedirect = () => {
-  const { isAuthenticated, isAdmin } = useAuth();
-  
-  if (!isAuthenticated) {
-    return <Navigate to="/login" />;
-  }
-  
-  return isAdmin ? <Navigate to="/admin" /> : <Navigate to="/member" />;
-};
-
 const AppRoutes = () => {
   return (
     <Routes>
       {/* Root redirect */}
-      <Route path="/" element={<RootRedirect />} />
+      <Route path="/" element={<Index />} />
       
       {/* Authentication */}
       <Route path="/login" element={<Login />} />
@@ -77,10 +73,16 @@ const AppRoutes = () => {
       {/* Admin routes */}
       <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
       <Route path="/admin/members" element={<AdminRoute><Members /></AdminRoute>} />
+      <Route path="/admin/members/add" element={<AdminRoute><AddMember /></AdminRoute>} />
       <Route path="/admin/members/:memberId" element={<AdminRoute><MemberProfile /></AdminRoute>} />
+      <Route path="/admin/recharge" element={<AdminRoute><Recharge /></AdminRoute>} />
+      <Route path="/admin/reports" element={<AdminRoute><Reports /></AdminRoute>} />
+      <Route path="/admin/settings" element={<AdminRoute><Settings /></AdminRoute>} />
       
       {/* Member routes */}
       <Route path="/member" element={<MemberRoute><MemberDashboard /></MemberRoute>} />
+      <Route path="/member/plan" element={<MemberRoute><ViewPlan /></MemberRoute>} />
+      <Route path="/member/payments" element={<MemberRoute><Payments /></MemberRoute>} />
       
       {/* Catch-all route */}
       <Route path="*" element={<NotFound />} />

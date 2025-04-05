@@ -81,7 +81,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
   return (
     <div className="flex h-screen bg-muted/20">
       {/* Sidebar */}
-      <div 
+      <aside 
         className={cn(
           "fixed inset-y-0 left-0 z-50 w-64 bg-sidebar text-sidebar-foreground flex flex-col transition-transform duration-300 ease-in-out md:relative",
           sidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0 md:w-20"
@@ -159,11 +159,11 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-      </div>
+      </aside>
 
       {/* Main Content */}
       <div className={cn(
-        "flex-1 flex flex-col overflow-hidden transition-all duration-300 ease-in-out",
+        "flex-1 flex flex-col overflow-hidden",
         sidebarOpen ? "md:ml-64" : "md:ml-20"
       )}>
         {/* Header */}
