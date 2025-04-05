@@ -61,7 +61,7 @@ const MemberLayout: React.FC<MemberLayoutProps> = ({ children }) => {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Header */}
-      <header className="bg-primary text-primary-foreground sticky top-0 z-10">
+      <header className="bg-primary text-primary-foreground sticky top-0 z-30">
         <div className="container mx-auto px-4 flex items-center justify-between h-16">
           <div className="flex items-center">
             <Link to="/member" className="text-xl font-bold">Cable Flow</Link>
@@ -125,9 +125,9 @@ const MemberLayout: React.FC<MemberLayoutProps> = ({ children }) => {
         </div>
       </header>
 
-      {/* Mobile menu */}
+      {/* Mobile menu - fixed positioning with top adjusted to be below header */}
       <div className={cn(
-        "md:hidden fixed inset-x-0 top-16 z-50 bg-background border-b border-border shadow-lg transition-all duration-300 transform",
+        "md:hidden fixed inset-x-0 top-16 z-20 bg-background border-b border-border shadow-lg transition-all duration-300 transform",
         mobileMenuOpen ? "translate-y-0" : "-translate-y-full"
       )}>
         <div className="p-4 space-y-4">
@@ -152,8 +152,11 @@ const MemberLayout: React.FC<MemberLayoutProps> = ({ children }) => {
         </div>
       </div>
 
-      {/* Main Content */}
-      <main className="flex-1 overflow-y-auto bg-muted/20">
+      {/* Main Content - add padding top when mobile menu is open */}
+      <main className={cn(
+        "flex-1 overflow-y-auto bg-muted/20",
+        mobileMenuOpen && "md:pt-0 pt-0" // No extra padding needed now
+      )}>
         <div className="container mx-auto p-4 md:p-6 h-full">
           {children}
         </div>
